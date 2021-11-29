@@ -1,9 +1,7 @@
 import { React, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-//import { addAdress } from "../actions/index";
 
-
-let AdressForm = () => {
+const AdressForm = () => {
 
 	const dispatch = useDispatch()
 
@@ -27,14 +25,11 @@ let AdressForm = () => {
 			console.log(error);
 		}
 	}
-	const handleChange = (e) => {
-		setInput(e.target.value);
-	}
 	return (
 		<div>
 		<div>FORM</div>
 		<form onSubmit={handleSubmit}>
-			<input value={input} type="text" onChange={handleChange} />
+			<input value={input} type="text" onChange={event => setInput(event.target.value)} />
 			<button type='submit'>Search</button>
 		</form>
 		{ error &&
