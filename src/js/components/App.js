@@ -1,27 +1,28 @@
 import './App.css';
-import AdressForm from '../pages/AdressForm'
-import Vault from '../pages/Vault'
-import CurrencyDetail from '../pages/CurrencyDetail'
-import { Route,Switch } from 'react-router-dom';
-import Header from './Header'
+import { Route,Routes } from 'react-router-dom';
+import React, { Suspense } from 'react';
 
+import Header from './Header'
+import Spinner from './ui/Spinner';
+import AdressForm from '../pages/AdressForm'
+
+const NotFound = React.lazy(() => import('../pages/NotFound'));
+const Vault = React.lazy(() => import('../pages/Vault'));
+const CurrencyDetail = React.lazy(() => import('../pages/CurrencyDetail'));
 
 let App = () => (
 	<div>
 		<Header />
 		<main>
-			<Switch>
-				<Route path="/" exact>
-					<h2>Adress :</h2>
-						<AdressForm />
-				</Route>
-				<Route path="/vault" exact>
-					<Vault />
-				</Route>
-				<Route path="/vault/:CurrId">
-					<CurrencyDetail />
-				</Route>
-			</Switch>
+			<Suspense fallback = {
+				<Spinner />
+			} />
+			<Routes>
+				<Route path="/" element={<AdressForm />}/>
+				<Route path="/vault" element={<Vault />} />
+				<Route path="/vault/:CurrId" element={<CurrencyDetail />}/>
+				<Route path="*" element={<NotFound />} />
+			</Routes>
 		</main>
 	</div>
 )

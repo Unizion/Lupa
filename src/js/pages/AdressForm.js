@@ -1,25 +1,29 @@
 import { React, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const AdressForm = () => {
-
 	const dispatch = useDispatch()
-
 	const addAdress = () => {
 		dispatch({
 			type: 'ADD_ADRESS',
 			adress: input
 		})
 	}
+
+	
+	const navigate = useNavigate();
+
 	const [input, setInput] = useState('');
 	const [error, setError] = useState(false);
-	const adress = useSelector(state => state);
+	const adress = useSelector(state => state.adress);
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		let testregex = /^[0-9a-zA-Z]+$/;
 		if(input.length === 42 && testregex.test(input) && input.split('x')[0] === '0' && input.split('x').length === 2){
 			addAdress(input);
 			console.log(adress);
+			navigate('/vault');
 		} else {
 			setError(true);
 			console.log(error);
