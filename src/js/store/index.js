@@ -1,6 +1,8 @@
-import { createStore } from "redux"
-import rootReducer from "../reducers/index"
+import { configureStore } from "@reduxjs/toolkit"
 
-const store = createStore(rootReducer);
+import vaultReducer from './vault'
+
+
+const store = configureStore({reducer:vaultReducer});
 
 export default store;

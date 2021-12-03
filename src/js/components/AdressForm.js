@@ -2,31 +2,28 @@ import { React, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-const AdressForm = () => {
-	const dispatch = useDispatch()
-	const addAdress = () => {
-		dispatch({
-			type: 'ADD_ADRESS',
-			adress: input
-		})
-	}
+import { vaultActions } from '../store/vault';
 
-	
+const AdressForm = () => {
+
+	const dispatch = useDispatch()
 	const navigate = useNavigate();
 
 	const [input, setInput] = useState('');
-	const [error, setError] = useState(false);
-	const adress = useSelector(state => state.adress);
+	const [error, setError] = useState('');
+	const state = useSelector(state => state);
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		let testregex = /^[0-9a-zA-Z]+$/;
+		const testregex = /^[0-9a-zA-Z]+$/;
 		if(input.length === 42 && testregex.test(input) && input.split('x')[0] === '0' && input.split('x').length === 2){
-			addAdress(input);
-			console.log(adress);
-			navigate('/vault');
+			if(state.vault[input] === undefined){
+				dispatch(vaultActions.addWallet(input))
+				navigate('/vault');
+			} else {
+				setError('Already linked !')
+			}
 		} else {
-			setError(true);
-			console.log(error);
+			setError('Invalid adress !');
 		}
 	}
 	return (
@@ -36,8 +33,8 @@ const AdressForm = () => {
 			<input value={input} type="text" onChange={event => setInput(event.target.value)} />
 			<button type='submit'>Search</button>
 		</form>
-		{ error &&
-			<div className="error">Invalid adress !</div>
+		{ (error !==  '') &&
+			<div className="error">{error}</div>
 		}
 		</div>
 	)

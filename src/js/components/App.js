@@ -1,10 +1,9 @@
 import './App.css';
 import { Route,Routes } from 'react-router-dom';
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import Header from './Header'
-import Spinner from './ui/Spinner';
-import AdressForm from '../pages/AdressForm'
+import Entrance from '../pages/Entrance';
 
 const NotFound = React.lazy(() => import('../pages/NotFound'));
 const Vault = React.lazy(() => import('../pages/Vault'));
@@ -14,11 +13,8 @@ let App = () => (
 	<div>
 		<Header />
 		<main>
-			<Suspense fallback = {
-				<Spinner />
-			} />
 			<Routes>
-				<Route path="/" element={<AdressForm />}/>
+				<Route path="/" element={<Entrance />}/>
 				<Route path="/vault" element={<Vault />} />
 				<Route path="/vault/:CurrId" element={<CurrencyDetail />}/>
 				<Route path="*" element={<NotFound />} />
